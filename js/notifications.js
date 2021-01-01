@@ -14,4 +14,4 @@ function errorNotFound () {
       });
 }
 
-export default errorNotFound;
+export default {errorNotFound};
