@@ -9,6 +9,7 @@ refs.form.addEventListener('submit', onSearch);
 
 let page = 1;
 let value = "";
+let totalImages = 0;
 
 function onSearch(e) {
   e.preventDefault();
@@ -20,21 +21,29 @@ function onSearch(e) {
 refs.button.addEventListener('click', () => {
   page += 1;
   countryBack(value, page).then(imagesCard).catch();
-  
- 
 });
 function imagesCard(nameCountry) {
+  
  if(nameCountry.hits.length === 0){
    notifications.errorNotFound();
    return
  }
   nameCountry.hits.map(c =>
     refs.listCard.insertAdjacentHTML('beforeend', card(c)));
+ 
 
+   totalImages += nameCountry.hits.length;
+   
+    if(totalImages === nameCountry.totalHits || nameCountry.totalHits < 12){
+    buttonRemove();
+    return;
+    }
   loadMore();
   button();
 }
-
+function buttonRemove(){
+  refs.button.classList.add('hiden');
+}
 function button (){
   refs.button.classList.remove('hiden');
   refs.form.reset();
